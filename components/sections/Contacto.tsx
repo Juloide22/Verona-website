@@ -268,9 +268,14 @@ export default function Contacto() {
             <div className="flex flex-col items-center gap-2">
               <MapPin className="w-4 h-4 text-verona-gold/60" />
               <span className="font-sans text-[9px] uppercase tracking-widest text-text-secondary">Ubicación</span>
-              <span className="font-sans text-xs text-text-primary leading-relaxed max-w-[240px]">
+              <a
+                href="https://www.google.com/maps/place/Italia+944,+B1712JZH+Castelar,+Provincia+de+Buenos+Aires/@-34.6497956,-58.6468091,174a,35y,282h/data=!3m1!1e3!4m6!3m5!1s0x95bcbf54bf42839b:0x9e3e3ea474920429!8m2!3d-34.6497333!4d-58.6469445!16s%2Fg%2F11ky7ld8xm?entry=ttu&g_ep=EgoyMDI2MDYwMS4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-sans text-xs text-text-primary leading-relaxed max-w-[240px] hover:text-verona-gold transition-colors duration-300 cursor-none"
+              >
                 {contacto.address}
-              </span>
+              </a>
             </div>
 
           </div>
@@ -302,15 +307,41 @@ export default function Contacto() {
       {/* Footer strip */}
       <footer className="w-full border-t border-border-subtle py-8 bg-[#040b15]">
         <div className="max-w-5xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-          <span className="font-display text-xl tracking-widest text-text-primary">
-            VERONA
-          </span>
-          <span className="font-sans text-[9px] uppercase tracking-extreme text-text-secondary">
-            {currentYear} © Todos los derechos reservados.
-          </span>
-          <span className="font-sans text-[9px] uppercase tracking-extreme text-verona-gold/70">
-            Castelar Norte · Buenos Aires
-          </span>
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6">
+            <a
+              href="https://www.carfi.com.ar/d/64397-VERONA-en-Castelar-Norte"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-display text-xl tracking-widest text-text-primary hover:text-verona-gold transition-colors duration-300 cursor-none"
+            >
+              VERONA
+            </a>
+            <span className="font-sans text-[9px] uppercase tracking-extreme text-text-secondary md:border-l md:border-white/10 md:pl-6">
+              {currentYear} © Todos los derechos reservados.
+            </span>
+            <a
+              href="https://www.google.com/maps/place/Italia+944,+B1712JZH+Castelar,+Provincia+de+Buenos+Aires/@-34.6497956,-58.6468091,174a,35y,282h/data=!3m1!1e3!4m6!3m5!1s0x95bcbf54bf42839b:0x9e3e3ea474920429!8m2!3d-34.6497333!4d-58.6469445!16s%2Fg%2F11ky7ld8xm?entry=ttu&g_ep=EgoyMDI2MDYwMS4wIKXMDSoASAFQAw%3D%3D"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-sans text-[9px] uppercase tracking-extreme text-verona-gold/70 md:border-l md:border-white/10 md:pl-6 flex flex-col md:flex-row md:items-center gap-1 md:gap-2 hover:text-verona-gold transition-colors duration-300 cursor-none"
+            >
+              <span>Castelar Norte · Buenos Aires</span>
+              <span className="text-[7.5px] opacity-75 normal-case font-light md:border-l md:border-white/10 md:pl-2">Italia 944</span>
+            </a>
+          </div>
+
+          <a
+            href="https://www.instagram.com/mad__viz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 opacity-65 hover:opacity-100 transition-opacity duration-300 cursor-none select-none"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/images/mad-logo.png" alt="MAD Logo" className="h-3.5 w-auto object-contain" />
+            <span className="font-sans text-[9px] uppercase tracking-extreme text-text-secondary font-medium">
+              MAD - Experiencias visuales
+            </span>
+          </a>
         </div>
       </footer>
     </section>

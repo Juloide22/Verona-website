@@ -13,6 +13,8 @@ interface ScrollCanvasProps {
   scrollHeight?: string;
   beats?: Beat[];
   sectionId?: string;
+  extraZoom?: number;
+  reverse?: boolean;
 }
 
 export default function ScrollCanvas({
@@ -24,6 +26,8 @@ export default function ScrollCanvas({
   scrollHeight = '500vh',
   beats = [],
   sectionId,
+  extraZoom = 1.0,
+  reverse = false,
 }: ScrollCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -394,7 +398,8 @@ export default function ScrollCanvas({
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       if (!usingFallback && images.length > 0) {
-        const frameIndex = Math.min(Math.floor(prog * frameCount), frameCount - 1);
+        const normalIndex = Math.min(Math.floor(prog * frameCount), frameCount - 1);
+        const frameIndex = reverse ? (frameCount - 1 - normalIndex) : normalIndex;
         const img = images[frameIndex];
         if (img) {
           const canvasRatio = canvas.width / canvas.height;
@@ -414,7 +419,17 @@ export default function ScrollCanvas({
             drawX = (canvas.width - drawWidth) / 2;
           }
 
-          ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+          // Apply extra zoom crop if specified or automatic for zoom folder
+          const scaleFactor = folder.includes('zoom') ? 1.08 : extraZoom;
+          if (scaleFactor !== 1.0) {
+            const w = drawWidth * scaleFactor;
+            const h = drawHeight * scaleFactor;
+            const x = drawX - (w - drawWidth) / 2;
+            const y = drawY - (h - drawHeight) / 2;
+            ctx.drawImage(img, x, y, w, h);
+          } else {
+            ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+          }
         }
       } else {
         if (folder.includes('zoom')) {
@@ -424,7 +439,7 @@ export default function ScrollCanvas({
         }
       }
     },
-    [usingFallback, images, frameCount, bgColor, folder]
+    [usingFallback, images, frameCount, bgColor, folder, extraZoom, reverse]
   );
 
   // Resize listener setup
@@ -537,6 +552,8 @@ export default function ScrollCanvas({
         {/* Aesthetic overlay grain lines or grid indices */}
         <div className="absolute inset-0 pointer-events-none border border-border-subtle z-25" />
       </div>
+      {/* Invisible anchor to scroll to the end of the sticky sequence */}
+      <div id={`${sectionId}-fin`} className="absolute bottom-0 w-full h-screen pointer-events-none" />
     </div>
   );
 }

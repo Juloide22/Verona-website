@@ -74,19 +74,24 @@ export default function Tipologias() {
                   <h4 className="font-display text-2xl text-text-primary mb-2 tracking-wide font-normal group-hover:text-verona-gold transition-colors duration-300">
                     {typo.title}
                   </h4>
-                  <span className="font-sans text-[10px] uppercase tracking-widest text-text-secondary">
-                    {typo.sub}
-                  </span>
+                  <div className="flex flex-col gap-1">
+                    <span className="font-sans text-[10px] uppercase tracking-widest text-text-secondary">
+                      {typo.sub}
+                    </span>
+                    <span className="font-sans text-xs font-semibold text-verona-gold mt-1.5">
+                      {typo.price}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-border-subtle flex justify-between text-xs">
                   <div>
-                    <span className="text-text-secondary font-light block">Cubierta</span>
-                    <span className="font-sans font-medium text-text-primary">{typo.coveredArea} m²</span>
+                    <span className="text-text-secondary font-light block">Total</span>
+                    <span className="font-sans font-medium text-text-primary">{typo.totalArea} m²</span>
                   </div>
                   <div>
-                    <span className="text-text-secondary font-light block">Terraza</span>
-                    <span className="font-sans font-medium text-text-primary">{typo.terraceArea} m²</span>
+                    <span className="text-text-secondary font-light block">Cubierta</span>
+                    <span className="font-sans font-medium text-text-primary">{typo.coveredArea} m²</span>
                   </div>
                   <div>
                     <span className="text-text-secondary font-light block">Cochera</span>
@@ -148,9 +153,12 @@ export default function Tipologias() {
                     <span className="font-sans text-[10px] uppercase tracking-extreme text-verona-gold mb-3 font-semibold">
                       Ficha de Unidad
                     </span>
-                    <h5 className="font-display text-3xl font-light text-text-primary tracking-wide mb-6">
+                    <h5 className="font-display text-3xl font-light text-text-primary tracking-wide mb-1">
                       {selectedTypo.title}
                     </h5>
+                    <span className="font-sans text-sm font-semibold text-verona-gold mb-6 block">
+                      Valor: {selectedTypo.price}
+                    </span>
                     <p className="font-sans text-sm text-text-secondary leading-relaxed mb-8 max-w-xl mx-auto">
                       {selectedTypo.description}
                     </p>
@@ -160,19 +168,19 @@ export default function Tipologias() {
                       <div className="flex gap-3 items-center justify-start md:justify-center">
                         <Square className="w-4 h-4 text-verona-gold/60 flex-shrink-0" />
                         <span className="font-sans text-xs text-text-primary whitespace-nowrap">
-                          {selectedTypo.coveredArea} m² Cubiertos
+                          {selectedTypo.totalArea} m² Superficie Total
                         </span>
                       </div>
                       <div className="flex gap-3 items-center justify-start md:justify-center">
                         <Square className="w-4 h-4 text-verona-gold/60 flex-shrink-0" />
                         <span className="font-sans text-xs text-text-primary whitespace-nowrap">
-                          {selectedTypo.terraceArea} m² Terraza
+                          {selectedTypo.coveredArea} m² Cub. + {selectedTypo.terraceArea} m² {selectedTypo.id === 'tipo-a' ? 'Parque' : 'Expansión'}
                         </span>
                       </div>
                       <div className="flex gap-3 items-center justify-start md:justify-center">
                         <Shield className="w-4 h-4 text-verona-gold/60 flex-shrink-0" />
                         <span className="font-sans text-xs text-text-primary whitespace-nowrap">
-                          {selectedTypo.rooms} Ambientes | {selectedTypo.bathrooms} Baños
+                          {selectedTypo.rooms} Ambientes | {selectedTypo.bathrooms} {selectedTypo.bathrooms === 1 ? 'Baño' : 'Baños'}
                         </span>
                       </div>
                       <div className="flex gap-3 items-center justify-start md:justify-center">

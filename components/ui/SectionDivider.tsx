@@ -4,10 +4,11 @@ interface SectionDividerProps {
   number: string;
   title: string;
   subtitle?: string;
+  addressDetail?: string;
   id?: string;
 }
 
-export default function SectionDivider({ number, title, subtitle, id }: SectionDividerProps) {
+export default function SectionDivider({ number, title, subtitle, addressDetail, id }: SectionDividerProps) {
   return (
     <div
       id={id}
@@ -23,8 +24,13 @@ export default function SectionDivider({ number, title, subtitle, id }: SectionD
           </h2>
         </div>
         {subtitle && (
-          <span className="font-sans text-[10px] md:text-[11px] uppercase tracking-extreme text-text-secondary">
-            {subtitle}
+          <span className="font-sans text-[10px] md:text-[11px] uppercase tracking-extreme text-text-secondary flex flex-col md:flex-row md:items-baseline md:gap-2">
+            <span>{subtitle}</span>
+            {addressDetail && (
+              <span className="text-[8px] md:text-[9px] opacity-70 normal-case font-light md:border-l md:border-white/10 md:pl-2">
+                {addressDetail}
+              </span>
+            )}
           </span>
         )}
       </div>

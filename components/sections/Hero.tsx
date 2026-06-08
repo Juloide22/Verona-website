@@ -13,7 +13,7 @@ export default function Hero() {
       opacity: 1,
       transition: {
         staggerChildren: 0.15,
-        delayChildren: 0.2,
+        delayChildren: 1.5, // Delayed to match the background dimming transition (1.0s + 0.5s)
       },
     },
   };
@@ -47,18 +47,44 @@ export default function Hero() {
       id="hero"
       className="relative w-full min-h-screen bg-verona-bg flex flex-col justify-center items-center px-6 md:px-12 overflow-hidden py-24"
     >
+      {/* Background Fachada Render with Opacity and Gradient Blend */}
+      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/hero-bg.jpg"
+          alt="Verona Fachada"
+          className="w-full h-full object-cover"
+          draggable={false}
+        />
+        {/* Blue dimming overlay - Fades in after 1 second to ensure text contrast */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.55 }}
+          transition={{ delay: 1.0, duration: 1.5, ease: 'easeInOut' }}
+          className="absolute inset-0 bg-[#071125]"
+        />
+        {/* Bottom linear fade to merge with dark background */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.0, duration: 1.5, ease: 'easeInOut' }}
+          className="absolute inset-0 bg-gradient-to-b from-transparent via-verona-bg/50 to-verona-bg"
+        />
+      </div>
+
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-5xl w-full flex flex-col items-center text-center"
+        className="max-w-5xl w-full flex flex-col items-center text-center relative z-10"
       >
         {/* Eyebrow label */}
         <motion.span
           variants={itemVariants}
-          className="font-sans text-[10px] md:text-[11px] uppercase tracking-extreme text-verona-gold mb-8 font-semibold"
+          className="font-sans text-[10px] md:text-[11px] uppercase tracking-extreme text-verona-gold mb-8 font-semibold flex flex-col items-center gap-1.5"
         >
-          {hero.eyebrow}
+          <span>{hero.eyebrow}</span>
+          <span className="text-[8.5px] md:text-[9px] opacity-75 normal-case font-light tracking-widest text-text-secondary">Italia 944</span>
         </motion.span>
 
         {/* Huge display title */}
@@ -98,7 +124,7 @@ export default function Hero() {
 
         {/* Animated pulsing scroll indicator vertical line */}
         <motion.a
-          href="#ubicacion"
+          href="#edificio-fin"
           variants={itemVariants}
           className="flex flex-col items-center group cursor-none"
         >

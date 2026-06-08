@@ -17,9 +17,8 @@ export default function Nav() {
   }, []);
 
   const navLinks = [
-    { label: 'Ubicación', href: '#ubicacion' },
-    { label: 'El Edificio', href: '#edificio' },
-    { label: 'Interiores', href: '#interiores' },
+    { label: 'Recorre el proyecto', href: '#360' },
+    { label: 'Galería', href: '#interiores' },
     { label: 'Unidades', href: '#unidades' },
     { label: 'Contacto', href: '#contacto' },
   ];
@@ -42,10 +41,6 @@ export default function Nav() {
           <a href="#hero" className="flex items-center gap-4 group cursor-none">
             <span className="font-display text-2xl tracking-widest text-text-primary transition-colors duration-300 group-hover:text-verona-gold">
               VERONA
-            </span>
-            <span className="h-4 w-[1px] bg-white/10" />
-            <span className="font-sans text-[9px] uppercase tracking-extreme text-verona-gold/80 font-medium">
-              Castelar Norte
             </span>
           </a>
 
@@ -100,10 +95,6 @@ export default function Nav() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="font-display text-2xl tracking-widest">VERONA</span>
-                <span className="h-4 w-[1px] bg-white/10" />
-                <span className="font-sans text-[10px] uppercase tracking-extreme text-verona-gold/80 font-medium">
-                  Castelar Norte
-                </span>
               </a>
               <button
                 className="text-text-primary hover:text-verona-gold transition-colors cursor-none"
@@ -138,9 +129,10 @@ export default function Nav() {
               >
                 Consultar Ahora
               </a>
-              <p className="text-[10px] uppercase tracking-extreme text-text-secondary text-center">
-                Castelar Norte · Buenos Aires
-              </p>
+              <div className="text-[10px] uppercase tracking-extreme text-text-secondary text-center flex flex-col items-center gap-0.5">
+                <span>Castelar Norte · Buenos Aires</span>
+                <span className="text-[8px] opacity-75 normal-case font-light tracking-widest">Italia 944</span>
+              </div>
             </div>
           </motion.div>
         )}

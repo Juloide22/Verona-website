@@ -19,24 +19,9 @@ export default function Home() {
         {/* HERO SECTION */}
         <Hero />
 
-        {/* SECTION 1 - ZOOM SATELITAL (Ubicación) */}
+        {/* SECTION 1 - SECUENCIA CONSTRUCTIVA (El Edificio) */}
         <SectionDivider
           number="01"
-          title="Ubicación"
-          subtitle="Castelar Norte · Buenos Aires"
-          id="ubicacion-divider"
-        />
-        <ScrollCanvas
-          folder="zoom"
-          frameCount={90}
-          beats={veronaConfig.zoomBeats}
-          scrollHeight="400vh"
-          sectionId="ubicacion"
-        />
-
-        {/* SECTION 2 - SECUENCIA CONSTRUCTIVA (El Edificio) */}
-        <SectionDivider
-          number="02"
           title="El Edificio"
           subtitle="Secuencia constructiva"
           id="edificio-divider"
@@ -50,23 +35,40 @@ export default function Home() {
           sectionId="edificio"
         />
 
-        {/* SECTION 3 - GALERÍA DE INTERIORES */}
+        {/* SECTION 2 - ZOOM SATELITAL (Ubicación) */}
+        <SectionDivider
+          number="02"
+          title="Ubicación"
+          subtitle="Castelar Norte · Buenos Aires"
+          addressDetail="Italia 944"
+          id="ubicacion-divider"
+        />
+        <ScrollCanvas
+          folder="zoom"
+          frameCount={121}
+          frameExt="jpg"
+          beats={veronaConfig.zoomBeats}
+          scrollHeight="400vh"
+          sectionId="ubicacion"
+        />
+
+        {/* SECTION 3 - VISOR 360° */}
         <SectionDivider
           number="03"
-          title="Interiores"
-          subtitle="Renders y acabados"
-          id="interiores-divider"
-        />
-        <InterioresGallery />
-
-        {/* SECTION 4 - VISOR 360° */}
-        <SectionDivider
-          number="04"
           title="Experiencia 360°"
           subtitle="Entorno inmersivo"
           id="360-divider"
         />
         <Viewer360 />
+
+        {/* SECTION 4 - GALERÍA DE INTERIORES */}
+        <SectionDivider
+          number="04"
+          title="Descubrí el proyecto"
+          subtitle="Imágenes interiores y exteriores"
+          id="interiores-divider"
+        />
+        <InterioresGallery />
 
         {/* SECTION 5 - TIPOLOGÍAS (Unidades) */}
         <SectionDivider

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Cormorant_Garamond, Outfit } from 'next/font/google';
 import Cursor from '@/components/ui/Cursor';
+import ScrollToTop from '@/components/ui/ScrollToTop';
 import './globals.css';
 
 const cormorant = Cormorant_Garamond({
@@ -17,12 +18,13 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: 'Verona | Vivir bien diseñado — Castelar Norte',
+  title: 'Verona | Vivir bien diseñado — Castelar Norte · Italia 944',
   description:
-    'Un edificio de escala humana en el corazón de Castelar Norte, Buenos Aires. Diez unidades premium de 3 y 4 ambientes con terrazas privadas y parrilla individual.',
+    'Un edificio de escala humana en Italia 944, Castelar Norte, Buenos Aires. Diez unidades premium de 3 y 4 ambientes con terrazas privadas y parrilla individual.',
   keywords: [
     'Verona',
     'Castelar Norte',
+    'Italia 944',
     'Preventa Inmobiliaria',
     'Real Estate de lujo',
     'Edificio Verona',
@@ -45,9 +47,13 @@ export default function RootLayout({
         {/* Custom cursor (Desktop only) */}
         <Cursor />
 
+        {/* Scroll To Top Button */}
+        <ScrollToTop />
+
         {/* Core application */}
         {children}
       </body>
     </html>
   );
 }
+
