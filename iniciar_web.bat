@@ -1,0 +1,9 @@
+@echo off
+title Iniciar Verona Web
+echo Iniciando servidor de desarrollo de Next.js...
+start cmd /k "npm run dev"
+echo Esperando 3 segundos a que cargue el servidor...
+timeout /t 3 /nobreak >nul
+echo Abriendo navegador en http://localhost:3000...
+start http://localhost:3000
+exit

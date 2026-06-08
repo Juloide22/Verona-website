@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-verona-bg: #071125;
+  --color-verona-gold: #c5a880;
+  --color-verona-gold-dim: rgba(197, 168, 128, 0.2);
+  --color-verona-gold-half: rgba(197, 168, 128, 0.5);
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-text-primary: rgba(255, 255, 255, 0.9);
+  --color-text-secondary: rgba(255, 255, 255, 0.5);
+  
+  --font-display: var(--font-cormorant), serif;
+  --font-sans: var(--font-outfit), sans-serif;
+  
+  --tracking-extreme: 0.35em;
+}
+
+:root {
+  --background: #071125;
+  --foreground: rgba(255, 255, 255, 0.9);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #071125;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-outfit), sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom 2px scrollbar matching gold theme */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: #071125;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5a880;
+}
+
+/* Procedural grain overlay */
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(197, 168, 128, 0.25);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Custom cursor body states */
+@media (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active a,
+  .custom-cursor-active button,
+  .custom-cursor-active select,
+  .custom-cursor-active textarea,
+  .custom-cursor-active input {
+    cursor: none !important;
+  }
+}
