@@ -312,9 +312,10 @@ export default function Contacto() {
               href="https://www.carfi.com.ar/d/64397-VERONA-en-Castelar-Norte"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-display text-xl tracking-widest text-text-primary hover:text-verona-gold transition-colors duration-300 cursor-none"
+              className="hover:opacity-80 transition-opacity duration-300 cursor-pointer"
             >
-              VERONA
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/logo.png" alt="Verona Logo" className="h-6 w-auto object-contain" />
             </a>
             <span className="font-sans text-[9px] uppercase tracking-extreme text-text-secondary md:border-l md:border-white/10 md:pl-6">
               {currentYear} © Todos los derechos reservados.

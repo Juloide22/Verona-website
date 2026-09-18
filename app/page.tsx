@@ -1,87 +1,76 @@
+'use client';
+
+import { useState } from 'react';
 import Nav from '@/components/ui/Nav';
 import Hero from '@/components/sections/Hero';
 import SectionDivider from '@/components/ui/SectionDivider';
-import ScrollCanvas from '@/components/scroll/ScrollCanvas';
-import InterioresGallery from '@/components/sections/InterioresGallery';
 import Viewer360 from '@/components/sections/Viewer360';
 import Tipologias from '@/components/sections/Tipologias';
 import Contacto from '@/components/sections/Contacto';
-import { veronaConfig } from '@/config/verona';
 
 export default function Home() {
+  const [isPortalOpen, setIsPortalOpen] = useState(true);
+
+  const handleEnterProject = (targetSectionId: string) => {
+    setIsPortalOpen(false);
+    setTimeout(() => {
+      const el = document.getElementById(targetSectionId);
+      if (el) {
+        const yOffset = -20;
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior });
+      }
+    }, 50);
+  };
+
+  const handleReturnToPortal = () => {
+    setIsPortalOpen(true);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
   return (
     <div className="relative w-full min-h-screen bg-verona-bg selection:bg-verona-gold/20 selection:text-text-primary">
-      {/* Sticky Top Header Navigation */}
-      <Nav />
+      {/* Intro Portal Full-screen Video Landing Page */}
+      {isPortalOpen && (
+        <Hero isPortalOpen={true} onEnterProject={handleEnterProject} />
+      )}
 
-      {/* Main Experience Layout */}
-      <main className="w-full">
-        {/* HERO SECTION */}
-        <Hero />
+      {/* Main Experience Web Application (Unlocked upon clicking CTA button) */}
+      {!isPortalOpen && (
+        <>
+          {/* Sticky Top Header Navigation */}
+          <Nav onHomeClick={handleReturnToPortal} />
 
-        {/* SECTION 1 - SECUENCIA CONSTRUCTIVA (El Edificio) */}
-        <SectionDivider
-          number="01"
-          title="El Edificio"
-          subtitle="Secuencia constructiva"
-          id="edificio-divider"
-        />
-        <ScrollCanvas
-          folder="construccion"
-          frameCount={60}
-          frameExt="jpg"
-          beats={veronaConfig.constructionBeats}
-          scrollHeight="500vh"
-          sectionId="edificio"
-        />
+          <main className="w-full pt-16">
+            {/* SECTION 01 - VISOR 360° */}
+            <div id="360" className="scroll-mt-24">
+              <SectionDivider
+                number="01"
+                title="Experiencia 360°"
+                subtitle="Entorno inmersivo"
+                id="360-divider"
+              />
+              <Viewer360 />
+            </div>
 
-        {/* SECTION 2 - ZOOM SATELITAL (Ubicación) */}
-        <SectionDivider
-          number="02"
-          title="Ubicación"
-          subtitle="Castelar Norte · Buenos Aires"
-          addressDetail="Italia 944"
-          id="ubicacion-divider"
-        />
-        <ScrollCanvas
-          folder="zoom"
-          frameCount={121}
-          frameExt="jpg"
-          beats={veronaConfig.zoomBeats}
-          scrollHeight="400vh"
-          sectionId="ubicacion"
-        />
+            {/* SECTION 02 - UNIDADES & GALERÍA */}
+            <div id="unidades" className="scroll-mt-24">
+              <SectionDivider
+                number="02"
+                title="Unidades & Galería"
+                subtitle="3 y 4 ambientes con expansiones exclusivas"
+                id="unidades-divider"
+              />
+              <Tipologias />
+            </div>
 
-        {/* SECTION 3 - VISOR 360° */}
-        <SectionDivider
-          number="03"
-          title="Experiencia 360°"
-          subtitle="Entorno inmersivo"
-          id="360-divider"
-        />
-        <Viewer360 />
-
-        {/* SECTION 4 - GALERÍA DE INTERIORES */}
-        <SectionDivider
-          number="04"
-          title="Descubrí el proyecto"
-          subtitle="Imágenes interiores y exteriores"
-          id="interiores-divider"
-        />
-        <InterioresGallery />
-
-        {/* SECTION 5 - TIPOLOGÍAS (Unidades) */}
-        <SectionDivider
-          number="05"
-          title="Unidades"
-          subtitle="3 y 4 ambientes"
-          id="unidades-divider"
-        />
-        <Tipologias />
-
-        {/* SECTION 6 - CONTACTO & FOOTER */}
-        <Contacto />
-      </main>
+            {/* SECTION 03 - CONTACTO & FOOTER */}
+            <div id="contacto" className="scroll-mt-24">
+              <Contacto />
+            </div>
+          </main>
+        </>
+      )}
     </div>
   );
 }

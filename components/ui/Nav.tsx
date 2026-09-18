@@ -4,7 +4,11 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
-export default function Nav() {
+interface NavProps {
+  onHomeClick?: () => void;
+}
+
+export default function Nav({ onHomeClick }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -17,11 +21,17 @@ export default function Nav() {
   }, []);
 
   const navLinks = [
-    { label: 'Recorre el proyecto', href: '#360' },
-    { label: 'Galería', href: '#interiores' },
-    { label: 'Unidades', href: '#unidades' },
+    { label: 'Recorré el proyecto', href: '#360' },
+    { label: 'Unidades y Galería', href: '#unidades' },
     { label: 'Contacto', href: '#contacto' },
   ];
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (onHomeClick) {
+      e.preventDefault();
+      onHomeClick();
+    }
+  };
 
   return (
     <>
@@ -38,10 +48,17 @@ export default function Nav() {
       >
         <div className="flex justify-between items-center w-full">
           {/* Logo Section */}
-          <a href="#hero" className="flex items-center gap-4 group cursor-none">
-            <span className="font-display text-2xl tracking-widest text-text-primary transition-colors duration-300 group-hover:text-verona-gold">
-              VERONA
-            </span>
+          <a
+            href="#hero"
+            onClick={handleLogoClick}
+            className="flex items-center gap-4 group cursor-pointer"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo.png"
+              alt="Verona Logo"
+              className="h-10 md:h-12 lg:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105 filter brightness-110 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]"
+            />
           </a>
 
           {/* Desktop Navigation Links (Centered) */}
@@ -50,7 +67,7 @@ export default function Nav() {
               <a
                 key={link.href}
                 href={link.href}
-                className="font-sans text-[11px] uppercase tracking-extreme text-text-secondary hover:text-verona-gold transition-colors duration-300 cursor-none"
+                className="font-sans text-[11px] uppercase tracking-extreme text-text-secondary hover:text-verona-gold transition-colors duration-300 cursor-pointer"
               >
                 {link.label}
               </a>
@@ -61,7 +78,7 @@ export default function Nav() {
           <div className="hidden md:block">
             <a
               href="#contacto"
-              className="font-sans text-[11px] uppercase tracking-extreme border border-verona-gold px-6 py-2.5 text-verona-gold hover:bg-verona-gold/15 transition-colors duration-300 cursor-none"
+              className="font-sans text-[11px] uppercase tracking-extreme border border-verona-gold px-6 py-2.5 text-verona-gold hover:bg-verona-gold/15 transition-colors duration-300 cursor-pointer"
             >
               Consultá
             </a>
@@ -69,7 +86,7 @@ export default function Nav() {
 
           {/* Mobile Hamburguer Button */}
           <button
-            className="md:hidden text-text-primary hover:text-verona-gold transition-colors cursor-none"
+            className="md:hidden text-text-primary hover:text-verona-gold transition-colors cursor-pointer"
             onClick={() => setMobileMenuOpen(true)}
             aria-label="Open menu"
           >
@@ -91,13 +108,17 @@ export default function Nav() {
             <div className="flex justify-between items-center">
               <a
                 href="#hero"
-                className="flex items-center gap-3 cursor-none"
-                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 cursor-pointer"
+                onClick={(e) => {
+                  setMobileMenuOpen(false);
+                  handleLogoClick(e);
+                }}
               >
-                <span className="font-display text-2xl tracking-widest">VERONA</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/logo.png" alt="Verona Logo" className="h-10 md:h-12 w-auto object-contain filter brightness-110" />
               </a>
               <button
-                className="text-text-primary hover:text-verona-gold transition-colors cursor-none"
+                className="text-text-primary hover:text-verona-gold transition-colors cursor-pointer"
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Close menu"
               >
@@ -114,7 +135,7 @@ export default function Nav() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="font-display text-3xl tracking-wide text-text-primary hover:text-verona-gold transition-colors duration-300 cursor-none"
+                  className="font-display text-3xl tracking-wide text-text-primary hover:text-verona-gold transition-colors duration-300 cursor-pointer"
                 >
                   {link.label}
                 </motion.a>
@@ -125,7 +146,7 @@ export default function Nav() {
               <a
                 href="#contacto"
                 onClick={() => setMobileMenuOpen(false)}
-                className="font-sans text-[12px] uppercase tracking-extreme border border-verona-gold w-full text-center py-4 text-verona-gold hover:bg-verona-gold/15 transition-colors duration-300 cursor-none"
+                className="font-sans text-[12px] uppercase tracking-extreme border border-verona-gold w-full text-center py-4 text-verona-gold hover:bg-verona-gold/15 transition-colors duration-300 cursor-pointer"
               >
                 Consultar Ahora
               </a>

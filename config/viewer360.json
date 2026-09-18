@@ -1,0 +1,315 @@
+{
+  "src": "/images/360/pano-03.jpg",
+  "autoLoad": true,
+  "autoRotate": -1,
+  "hfov": 100,
+  "categories": {
+    "social": {
+      "label": "Estar / Social",
+      "icon": "sofa"
+    },
+    "cocina": {
+      "label": "Cocina / Comedor",
+      "icon": "utensils"
+    },
+    "dormitorios": {
+      "label": "Dormitorios",
+      "icon": "bed"
+    },
+    "exteriores": {
+      "label": "Exterior",
+      "icon": "home"
+    }
+  },
+  "typologies": {
+    "social-areas": {
+      "label": "Exterior"
+    },
+    "depto-a": {
+      "label": "Tipología A "
+    },
+    "depto-b": {
+      "label": "Tipología B "
+    },
+    "depto-c": {
+      "label": "Tipología C "
+    },
+    "depto-7917": {
+      "label": "Terraza"
+    }
+  },
+  "scenes": [
+    {
+      "id": "vista-01",
+      "label": "Living",
+      "src": "/images/360/pano-03.jpg",
+      "category": "social",
+      "typology": "depto-a",
+      "hotspots": [
+        {
+          "id": "hs-1",
+          "pitch": -5,
+          "yaw": -35,
+          "category": "cocina",
+          "label": "Cocina PB"
+        },
+        {
+          "id": "hs-2",
+          "pitch": 0,
+          "yaw": 45,
+          "category": "dormitorios",
+          "label": "Sector Dormitorios"
+        },
+        {
+          "id": "hs-3",
+          "pitch": -2,
+          "yaw": 160,
+          "category": "exteriores",
+          "label": "Galería y Jardín"
+        }
+      ]
+    },
+    {
+      "id": "vista-02",
+      "label": "Comedor ",
+      "src": "/images/360/pano-01.jpg",
+      "category": "social",
+      "typology": "depto-a",
+      "hotspots": [
+        {
+          "id": "hs-4",
+          "pitch": -3,
+          "yaw": -120,
+          "category": "social",
+          "label": "Estar Principal PB"
+        },
+        {
+          "id": "hs-5",
+          "pitch": -6,
+          "yaw": 40,
+          "category": "cocina",
+          "label": "Cocina PB"
+        }
+      ]
+    },
+    {
+      "id": "vista-03",
+      "label": "Cocina ",
+      "src": "/images/360/pano-02.jpg",
+      "category": "cocina",
+      "typology": "depto-a",
+      "hotspots": [
+        {
+          "id": "hs-6",
+          "pitch": -4,
+          "yaw": 90,
+          "category": "social",
+          "label": "Estar Principal"
+        },
+        {
+          "id": "hs-7",
+          "pitch": -3,
+          "yaw": -145,
+          "category": "exteriores",
+          "label": "Salida al Jardín"
+        }
+      ]
+    },
+    {
+      "id": "vista-08",
+      "label": "Living",
+      "src": "/images/360/pano-06.jpg",
+      "category": "social",
+      "typology": "depto-b",
+      "hotspots": [
+        {
+          "id": "hs-14",
+          "pitch": -5,
+          "yaw": -45,
+          "category": "cocina",
+          "label": "Cocina Piso 1"
+        },
+        {
+          "id": "hs-15",
+          "pitch": -2,
+          "yaw": 135,
+          "category": "exteriores",
+          "label": "Balcón Terraza"
+        }
+      ]
+    },
+    {
+      "id": "vista-09",
+      "label": "Comedor",
+      "src": "/images/360/pano-04.jpg",
+      "category": "social",
+      "typology": "depto-b",
+      "hotspots": [
+        {
+          "id": "hs-16",
+          "pitch": -4,
+          "yaw": 90,
+          "category": "social",
+          "label": "Estar Piso 1"
+        }
+      ]
+    },
+    {
+      "id": "vista-10",
+      "label": "Cocina",
+      "src": "/images/360/pano-05.jpg",
+      "category": "cocina",
+      "typology": "depto-b",
+      "hotspots": [
+        {
+          "id": "hs-17",
+          "pitch": 0,
+          "yaw": 180,
+          "category": "social",
+          "label": "Volver al Estar"
+        }
+      ]
+    },
+    {
+      "id": "vista-11",
+      "label": "Dormitorio Suite",
+      "src": "/images/360/pano-13.jpg",
+      "category": "dormitorios",
+      "typology": "depto-b",
+      "hotspots": [
+        {
+          "id": "hs-18",
+          "pitch": -2,
+          "yaw": 0,
+          "category": "social",
+          "label": "Estar Piso 1"
+        }
+      ]
+    },
+    {
+      "id": "vista-12",
+      "label": "Living",
+      "src": "/images/360/pano-07.jpg",
+      "category": "social",
+      "typology": "depto-c",
+      "hotspots": [
+        {
+          "id": "hs-19",
+          "pitch": -5,
+          "yaw": -30,
+          "category": "cocina",
+          "label": "Cocina Piso 3"
+        },
+        {
+          "id": "hs-20",
+          "pitch": -2,
+          "yaw": 120,
+          "category": "exteriores",
+          "label": "Terraza Privada"
+        }
+      ]
+    },
+    {
+      "id": "vista-13",
+      "label": "Comedor",
+      "src": "/images/360/pano-08.jpg",
+      "category": "social",
+      "typology": "depto-c",
+      "hotspots": [
+        {
+          "id": "hs-21",
+          "pitch": -4,
+          "yaw": 90,
+          "category": "social",
+          "label": "Estar Piso 3"
+        }
+      ]
+    },
+    {
+      "id": "vista-14",
+      "label": "Cocina",
+      "src": "/images/360/pano-09.jpg",
+      "category": "cocina",
+      "typology": "depto-c",
+      "hotspots": [
+        {
+          "id": "hs-22",
+          "pitch": -2,
+          "yaw": -60,
+          "category": "social",
+          "label": "Estar Piso 3"
+        }
+      ]
+    },
+    {
+      "id": "vista-15",
+      "label": "Fachada",
+      "src": "/images/360/pano-12.jpg",
+      "category": "exteriores",
+      "typology": "social-areas",
+      "hotspots": [
+        {
+          "id": "hs-23",
+          "pitch": 0,
+          "yaw": 90,
+          "category": "exteriores",
+          "label": "Acceso Cocheras"
+        }
+      ],
+      "pitch": 4,
+      "yaw": -97
+    },
+    {
+      "id": "vista-16",
+      "label": "Patio jardin",
+      "src": "/images/360/pano-16.jpg",
+      "category": "exteriores",
+      "typology": "depto-a",
+      "hotspots": [
+        {
+          "id": "hs-24",
+          "pitch": 0,
+          "yaw": -90,
+          "category": "exteriores",
+          "label": "Acceso / Fachada"
+        }
+      ]
+    },
+    {
+      "id": "vista-7367",
+      "label": "Acceso/Cocheras",
+      "src": "/images/360/pano-11.jpg",
+      "category": "exteriores",
+      "typology": "social-areas",
+      "pitch": 0,
+      "yaw": 0
+    },
+    {
+      "id": "vista-5266",
+      "label": "Vestidor",
+      "src": "/images/360/pano-14.jpg",
+      "category": "dormitorios",
+      "typology": "depto-b",
+      "pitch": 0,
+      "yaw": 0
+    },
+    {
+      "id": "vista-6556",
+      "label": "Baño suite",
+      "src": "/images/360/pano-10.jpg",
+      "category": "dormitorios",
+      "typology": "depto-b",
+      "pitch": 0,
+      "yaw": 0
+    },
+    {
+      "id": "vista-6404",
+      "label": "Terraza Privada",
+      "src": "/images/360/pano-15.jpg",
+      "category": "exteriores",
+      "typology": "depto-7917",
+      "pitch": 0,
+      "yaw": 0
+    }
+  ]
+}

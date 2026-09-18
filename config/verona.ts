@@ -1,3 +1,5 @@
+import viewer360Data from './viewer360.json';
+
 export interface Beat {
   progressStart: number;
   progressEnd: number;
@@ -13,6 +15,7 @@ export interface InteriorImage {
   title: string;
   description: string;
   placeholderBg: string;
+  typology?: 'tipo-a' | 'tipo-b' | 'tipo-c' | 'exteriores';
 }
 
 export interface Typology {
@@ -33,6 +36,25 @@ export interface Typology {
   svgPath: string;
 }
 
+export interface Hotspot360 {
+  id?: string;
+  pitch: number;
+  yaw: number;
+  category: 'social' | 'cocina' | 'dormitorios' | 'exteriores';
+  label: string;
+}
+
+export interface Scene360 {
+  id: string;
+  label: string;
+  src: string;
+  category: 'social' | 'cocina' | 'dormitorios' | 'exteriores';
+  typology?: string;
+  pitch?: number;
+  yaw?: number;
+  hotspots?: Hotspot360[];
+}
+
 export interface ProjectConfig {
   hero: {
     eyebrow: string;
@@ -40,6 +62,8 @@ export interface ProjectConfig {
     subtitle: string;
     dataLine: string;
     description: string;
+    videoDesktop?: string;
+    videoMobile?: string;
   };
   zoomBeats: Beat[];
   constructionBeats: Beat[];
@@ -49,6 +73,9 @@ export interface ProjectConfig {
     autoLoad: boolean;
     autoRotate: number;
     hfov: number;
+    categories: Record<string, { label: string; icon: 'sofa' | 'utensils' | 'bed' | 'mappin' }>;
+    typologies: Record<string, { label: string }>;
+    scenes: Scene360[];
   };
   typologies: Typology[];
   technicalSpecs: {
@@ -69,8 +96,10 @@ export const veronaConfig: ProjectConfig = {
     eyebrow: "CASTELAR NORTE · BUENOS AIRES",
     title: "Verona",
     subtitle: "Vivir bien diseñado.",
-    dataLine: "10 unidades · 3 y 4 ambientes · Entrega 2026",
+    dataLine: "10 unidades · 3 y 4 ambientes",
     description: "Un edificio de escala humana en el corazón de Castelar Norte. Diez unidades de 3 y 4 ambientes con terrazas privadas, pensadas para quienes valoran el espacio, la luz y la calidad constructiva.",
+    videoDesktop: "/videos/hero-desktop.mp4",
+    videoMobile: "/videos/hero-mobile.mp4",
   },
   zoomBeats: [
     {
@@ -154,104 +183,191 @@ export const veronaConfig: ProjectConfig = {
     },
   ],
   interiores: [
+    // Exteriores
     {
-      id: "01",
-      src: "/images/exteriores/ext-01.jpg",
+      id: "ext-01",
+      src: "/images/exteriores/01.jpg",
       title: "Fachada principal y acceso",
       description: "Diseño contemporáneo de escala humana y líneas depuradas en el entorno residencial de Castelar Norte.",
       placeholderBg: "#0d1117",
+      typology: "exteriores",
     },
     {
-      id: "02",
-      src: "/images/exteriores/ext-02.jpg",
+      id: "ext-02",
+      src: "/images/exteriores/02.jpg",
       title: "Integración urbana",
       description: "La solidez del hormigón y la calidez de los detalles exteriores se fusionan armónicamente con la arboleda.",
       placeholderBg: "#0a0c10",
+      typology: "exteriores",
     },
     {
-      id: "03",
-      src: "/images/exteriores/ext-04.jpg",
+      id: "ext-03",
+      src: "/images/exteriores/03.jpg",
       title: "Balcones y expansiones",
       description: "Amplias terrazas privadas pensadas para extender la vida interior hacia el aire libre y la luz natural.",
       placeholderBg: "#0f1216",
+      typology: "exteriores",
     },
     {
-      id: "04",
-      src: "/images/exteriores/ext-10.jpg",
+      id: "ext-04",
+      src: "/images/exteriores/04.jpg",
       title: "Estética y solidez",
       description: "Fachada moderna con materiales de alta categoría que garantizan bajo mantenimiento y gran durabilidad.",
       placeholderBg: "#0d0f12",
+      typology: "exteriores",
     },
     {
-      id: "05",
-      src: "/images/exteriores/ext-11.jpg",
+      id: "ext-05",
+      src: "/images/exteriores/05.jpg",
       title: "Perspectiva exterior",
       description: "Una arquitectura que prioriza la escala peatonal, el diseño de vanguardia y la espacialidad de sus unidades.",
       placeholderBg: "#0e1115",
+      typology: "exteriores",
     },
     {
-      id: "06",
-      src: "/images/exteriores/ext-09.jpg",
+      id: "ext-06",
+      src: "/images/exteriores/06.jpg",
       title: "Terrazas exclusivas",
       description: "Detalle de las expansiones superiores con visuales despejadas al barrio residencial.",
       placeholderBg: "#0c0e12",
+      typology: "exteriores",
     },
+
+    // Tipología A
     {
-      id: "07",
-      src: "/images/interiores/pb-depto-tipo-01.jpg",
-      title: "Planta baja - Comedor / Estar",
-      description: "Espacios integrados y amplios con ventanales de piso a techo que priorizan el ingreso de luz natural y conectan con el exterior.",
+      id: "tipo-a-01",
+      src: "/images/tipologia-a/01.jpg",
+      title: "Tipología A — Render 01",
+      description: "Espacios integrados y amplios con ventanales de piso a techo que priorizan el ingreso de luz natural.",
       placeholderBg: "#1a1510",
+      typology: "tipo-a",
     },
     {
-      id: "08",
-      src: "/images/interiores/pb-depto-tipo-02.jpg",
-      title: "Planta Baja - Cocina integrada",
-      description: "Mobiliario funcional de líneas depuradas con mesadas de cuarzo y grifería de alta gama integrados armónicamente al sector social.",
+      id: "tipo-a-02",
+      src: "/images/tipologia-a/02.jpg",
+      title: "Tipología A — Render 02",
+      description: "Mobiliario funcional de líneas depuradas con mesadas de cuarzo y grifería de alta gama.",
       placeholderBg: "#111318",
+      typology: "tipo-a",
     },
     {
-      id: "09",
-      src: "/images/interiores/pb-depto-tipo-03.jpg",
-      title: "Planta baja - Estar / Comedor",
-      description: "Perspectiva amplia del área social que resalta la escala humana del proyecto y su flexibilidad de distribución.",
+      id: "tipo-a-03",
+      src: "/images/tipologia-a/03.jpg",
+      title: "Tipología A — Render 03",
+      description: "Perspectiva amplia del área social que resalta la escala humana del proyecto.",
       placeholderBg: "#151210",
+      typology: "tipo-a",
     },
     {
-      id: "10",
-      src: "/images/interiores/pb-depto-tipo-04.jpg",
-      title: "Planta baja - Cocina",
-      description: "Equipamiento de diseño contemporáneo, distribución funcional y revestimientos de primera calidad para una practicidad óptima.",
+      id: "tipo-a-04",
+      src: "/images/tipologia-a/04.jpg",
+      title: "Tipología A — Render 04",
+      description: "Equipamiento de diseño contemporáneo, distribución funcional y revestimientos de primera calidad.",
       placeholderBg: "#121515",
+      typology: "tipo-a",
     },
     {
-      id: "11",
-      src: "/images/interiores/pb-depto-tipo-05.jpg",
-      title: "Planta baja - Dormitorio tipo",
-      description: "Ambiente diseñado para el descanso y confort, con aberturas seleccionadas para una acústica y luminosidad óptimas.",
+      id: "tipo-a-05",
+      src: "/images/tipologia-a/05.jpg",
+      title: "Tipología A — Render 05",
+      description: "Ambiente diseñado para el descanso y confort, con aberturas seleccionadas para óptima luminosidad.",
       placeholderBg: "#161618",
+      typology: "tipo-a",
     },
     {
-      id: "12",
-      src: "/images/interiores/pn1-depto-tipo-01.jpg",
-      title: "Primer nivel - Living / Comedor",
-      description: "Unidad en altura con visuales despejadas hacia el entorno arbolado de Castelar y gran fluidez espacial.",
-      placeholderBg: "#12141a",
-    },
-    {
-      id: "13",
-      src: "/images/interiores/pn1-depto-tipo-02.jpg",
-      title: "Primer piso - Cocina integrada",
-      description: "Diseño moderno y compacto para el primer nivel, optimizando el espacio de preparado y la interacción cotidiana.",
+      id: "tipo-a-06",
+      src: "/images/tipologia-a/06.jpg",
+      title: "Tipología A — Render 06",
+      description: "Detalle de expansiones y conexión fluida entre el interior y el parque privado.",
       placeholderBg: "#141210",
+      typology: "tipo-a",
+    },
+
+    // Tipología B
+    {
+      id: "tipo-b-01",
+      src: "/images/tipologia-b/01.jpg",
+      title: "Tipología B — Render 01",
+      description: "Unidad en altura con visuales despejadas hacia el entorno arbolado de Castelar Norte.",
+      placeholderBg: "#12141a",
+      typology: "tipo-b",
+    },
+    {
+      id: "tipo-b-02",
+      src: "/images/tipologia-b/02.jpg",
+      title: "Tipología B — Render 02",
+      description: "Mobiliario funcional de líneas contemporáneas integrado al sector social.",
+      placeholderBg: "#141210",
+      typology: "tipo-b",
+    },
+    {
+      id: "tipo-b-03",
+      src: "/images/tipologia-b/03.jpg",
+      title: "Tipología B — Render 03",
+      description: "Habitación luminosa con amplios placares y ventanales acústicos.",
+      placeholderBg: "#151210",
+      typology: "tipo-b",
+    },
+    {
+      id: "tipo-b-04",
+      src: "/images/tipologia-b/04.jpeg",
+      title: "Tipología B — Render 04",
+      description: "Perspectiva del balcón terraza y área social de 3 ambientes.",
+      placeholderBg: "#131518",
+      typology: "tipo-b",
+    },
+    {
+      id: "tipo-b-05",
+      src: "/images/tipologia-b/05.jpg",
+      title: "Tipología B — Render 05",
+      description: "Terminaciones de categoría en baños y cocina integrada.",
+      placeholderBg: "#111316",
+      typology: "tipo-b",
+    },
+    {
+      id: "tipo-b-06",
+      src: "/images/tipologia-b/06.jpg",
+      title: "Tipología B — Render 06",
+      description: "Vista panorámica y luminosidad natural en todos sus ambientes.",
+      placeholderBg: "#101215",
+      typology: "tipo-b",
+    },
+
+    // Tipología C
+    {
+      id: "tipo-c-01",
+      src: "/images/tipologia-c/01.jpg",
+      title: "Tipología C — Render 01",
+      description: "Diseño moderno de 4 ambientes en nivel superior con gran terraza privada.",
+      placeholderBg: "#141210",
+      typology: "tipo-c",
+    },
+    {
+      id: "tipo-c-02",
+      src: "/images/tipologia-c/02.jpg",
+      title: "Tipología C — Render 02",
+      description: "Espacios sociales jerarquizados con salida a balcón terraza individual.",
+      placeholderBg: "#12141a",
+      typology: "tipo-c",
+    },
+    {
+      id: "tipo-c-03",
+      src: "/images/tipologia-c/03.jpg",
+      title: "Tipología C — Render 03",
+      description: "Dormitorio principal en suite con vestidor y finos detalles de terminación.",
+      placeholderBg: "#161618",
+      typology: "tipo-c",
+    },
+    {
+      id: "tipo-c-04",
+      src: "/images/tipologia-c/04.jpg",
+      title: "Tipología C — Render 04",
+      description: "Cocina integrada equipada con mesadas de cuarzo y mobiliario de primera marca.",
+      placeholderBg: "#131517",
+      typology: "tipo-c",
     },
   ],
-  viewer360: {
-    src: "/images/360/panorama.jpg",
-    autoLoad: true,
-    autoRotate: -2,
-    hfov: 100,
-  },
+  viewer360: viewer360Data as any,
   typologies: [
     {
       id: "tipo-a",

@@ -1,26 +1,45 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { veronaConfig, Typology } from '@/config/verona';
-import { Square, Shield, Car } from 'lucide-react';
+import { Square, Shield, Car, X, ArrowRight, ArrowLeft, MessageCircle } from 'lucide-react';
+import InterioresGallery, { FilterId } from '@/components/sections/InterioresGallery';
 
 export default function Tipologias() {
-  const { typologies, technicalSpecs } = veronaConfig;
-  const [selectedTypo, setSelectedTypo] = useState<Typology | null>(null);
+  const { typologies, technicalSpecs, contacto } = veronaConfig;
+  const [selectedModalTypo, setSelectedModalTypo] = useState<Typology | null>(null);
+  const [mounted, setMounted] = useState(false);
 
-  // Auto-select first typology on desktop
   useEffect(() => {
-    if (window.innerWidth >= 768 && typologies.length > 0) {
-      setSelectedTypo(typologies[0]);
-    }
-  }, [typologies]);
+    setMounted(true);
+  }, []);
 
-  const handleSelect = (typo: Typology) => {
-    setSelectedTypo(selectedTypo?.id === typo.id ? null : typo);
-  };
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedModalTypo) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [selectedModalTypo]);
+
+  // Keyboard navigation (Escape closes modal)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedModalTypo(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const handleConsultar = (id: string) => {
+    setSelectedModalTypo(null);
     const event = new CustomEvent('verona-select-typology', { detail: id });
     window.dispatchEvent(event);
 
@@ -30,40 +49,47 @@ export default function Tipologias() {
     }
   };
 
+  const getWhatsAppLink = (typo: Typology) => {
+    const msg = encodeURIComponent(
+      `Hola! Me interesa obtener más información sobre la ${typo.title} (${typo.sub}) del proyecto Verona.`
+    );
+    return `https://wa.me/${contacto.phoneFormatted}?text=${msg}`;
+  };
+
   return (
     <section id="unidades" className="w-full bg-verona-bg py-24 border-t border-border-subtle">
+      {/* Anchor alias for #interiores links */}
+      <div id="interiores" className="scroll-mt-24" />
+
       {/* Strictly aligned to max-w-5xl container grid */}
       <div className="max-w-5xl mx-auto px-6 md:px-12">
         
         {/* Centered Section Header */}
         <div className="mb-16 text-center">
           <span className="font-sans text-[10px] md:text-[11px] uppercase tracking-extreme text-verona-gold font-medium mb-3 block">
-            Tipologías
+            Tipologías de Unidades
           </span>
           <h3 className="font-display text-4xl md:text-5xl font-light text-text-primary leading-tight">
-            Encontrá <br className="hidden md:block" />
-            tu unidad.
+            Encontrá tu espacio.
           </h3>
+          <p className="font-sans text-xs md:text-sm text-text-secondary mt-3 max-w-md mx-auto">
+            Seleccioná una tipología para ver su ficha completa, plano arquitectónico y galería de renders.
+          </p>
         </div>
 
-        {/* Units Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {/* 3 Main Typology Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {typologies.map((typo) => {
-            const isSelected = selectedTypo?.id === typo.id;
-
             return (
               <div
                 key={typo.id}
-                onClick={() => handleSelect(typo)}
-                className={`border p-8 cursor-none flex flex-col justify-between min-h-[280px] transition-all duration-500 group relative ${
-                  isSelected
-                    ? 'border-verona-gold bg-verona-gold/[0.03]'
-                    : 'border-border-subtle hover:border-verona-gold/40'
-                }`}
+                onClick={() => setSelectedModalTypo(typo)}
+                className="border border-border-subtle hover:border-verona-gold p-8 cursor-none flex flex-col justify-between min-h-[340px] bg-black/20 hover:bg-verona-gold/[0.04] transition-all duration-500 group relative shadow-lg"
               >
                 <div>
+                  {/* Top Badges */}
                   <div className="flex justify-between items-start mb-6">
-                    <span className="font-sans text-[10px] uppercase tracking-extreme text-verona-gold">
+                    <span className="font-sans text-[10px] uppercase tracking-extreme text-verona-gold font-semibold">
                       {typo.floor}
                     </span>
                     <span className="font-sans text-[9px] uppercase tracking-extreme text-text-secondary bg-white/[0.03] border border-border-subtle px-2.5 py-1">
@@ -71,144 +97,53 @@ export default function Tipologias() {
                     </span>
                   </div>
 
-                  <h4 className="font-display text-2xl text-text-primary mb-2 tracking-wide font-normal group-hover:text-verona-gold transition-colors duration-300">
+                  {/* Title & Subtitle */}
+                  <h4 className="font-display text-3xl text-text-primary mb-2 tracking-wide font-normal group-hover:text-verona-gold transition-colors duration-300">
                     {typo.title}
                   </h4>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-1 mb-4">
                     <span className="font-sans text-[10px] uppercase tracking-widest text-text-secondary">
                       {typo.sub}
                     </span>
-                    <span className="font-sans text-xs font-semibold text-verona-gold mt-1.5">
+                    <span className="font-sans text-sm font-semibold text-verona-gold mt-2">
                       {typo.price}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-border-subtle flex justify-between text-xs">
-                  <div>
-                    <span className="text-text-secondary font-light block">Total</span>
-                    <span className="font-sans font-medium text-text-primary">{typo.totalArea} m²</span>
+                {/* Specs overview footer */}
+                <div>
+                  <div className="pt-6 border-t border-border-subtle flex justify-between text-xs mb-6">
+                    <div>
+                      <span className="text-text-secondary font-light block">Total</span>
+                      <span className="font-sans font-medium text-text-primary">{typo.totalArea} m²</span>
+                    </div>
+                    <div>
+                      <span className="text-text-secondary font-light block">Cubierta</span>
+                      <span className="font-sans font-medium text-text-primary">{typo.coveredArea} m²</span>
+                    </div>
+                    <div>
+                      <span className="text-text-secondary font-light block">Cochera</span>
+                      <span className="font-sans font-medium text-text-primary">{typo.garage ? 'Sí' : 'No'}</span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-text-secondary font-light block">Cubierta</span>
-                    <span className="font-sans font-medium text-text-primary">{typo.coveredArea} m²</span>
-                  </div>
-                  <div>
-                    <span className="text-text-secondary font-light block">Cochera</span>
-                    <span className="font-sans font-medium text-text-primary">{typo.garage ? 'Sí' : 'No'}</span>
+
+                  {/* Action Button */}
+                  <div className="w-full border border-verona-gold/40 group-hover:border-verona-gold group-hover:bg-verona-gold group-hover:text-black text-verona-gold py-3 px-4 text-center font-sans text-[10px] uppercase tracking-extreme transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Ver Ficha & Renders</span>
+                    <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
                 </div>
 
-                <div
-                  className={`absolute bottom-0 left-0 h-[2px] bg-verona-gold transition-all duration-500 ${
-                    isSelected ? 'w-full' : 'w-0 group-hover:w-1/3'
-                  }`}
-                />
+                {/* Bottom line accent */}
+                <div className="absolute bottom-0 left-0 h-[2px] bg-verona-gold w-0 group-hover:w-full transition-all duration-500" />
               </div>
             );
           })}
         </div>
 
-        {/* Selected Unit Details Panel */}
-        <div className="overflow-hidden mb-16">
-          <AnimatePresence mode="wait">
-            {selectedTypo && (
-              <motion.div
-                key={selectedTypo.id}
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="border-t border-border-subtle pt-12"
-              >
-                <div className="flex flex-col items-center text-center">
-                  
-                  {/* SVG Blueprint Mockup (Centered at Top) */}
-                  <div className="w-full max-w-2xl bg-[#050d1a] border border-border-subtle aspect-[16/10] relative mb-12 flex justify-center items-center py-8">
-                    <svg
-                      viewBox="0 0 300 200"
-                      className="w-4/5 h-4/5 text-verona-gold/45 stroke-current fill-none stroke-[0.75]"
-                    >
-                      <defs>
-                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(197, 168, 128, 0.03)" strokeWidth="0.5"/>
-                        </pattern>
-                      </defs>
-                      <rect width="100%" height="100%" fill="url(#grid)" stroke="none" />
-
-                      <path d={selectedTypo.svgPath} />
-
-                      <text x="35" y="55" fill="rgba(197, 168, 128, 0.4)" fontSize="7" fontFamily="monospace">TERRAZA</text>
-                      <text x="135" y="105" fill="rgba(197, 168, 128, 0.4)" fontSize="7" fontFamily="monospace">LIVING</text>
-                      <text x="215" y="145" fill="rgba(197, 168, 128, 0.4)" fontSize="7" fontFamily="monospace">DORMITORIO</text>
-                    </svg>
-
-                    <div className="absolute bottom-4 left-4 font-sans text-[8px] uppercase tracking-extreme text-verona-gold/40">
-                      esquema de planta arquitectónica sugerida
-                    </div>
-                  </div>
-
-                  {/* Detailed Description & Specs */}
-                  <div className="flex flex-col items-center max-w-2xl">
-                    <span className="font-sans text-[10px] uppercase tracking-extreme text-verona-gold mb-3 font-semibold">
-                      Ficha de Unidad
-                    </span>
-                    <h5 className="font-display text-3xl font-light text-text-primary tracking-wide mb-1">
-                      {selectedTypo.title}
-                    </h5>
-                    <span className="font-sans text-sm font-semibold text-verona-gold mb-6 block">
-                      Valor: {selectedTypo.price}
-                    </span>
-                    <p className="font-sans text-sm text-text-secondary leading-relaxed mb-8 max-w-xl mx-auto">
-                      {selectedTypo.description}
-                    </p>
-
-                    {/* Features list (Centered grid) */}
-                    <div className="grid grid-cols-2 gap-x-12 gap-y-6 mb-10 max-w-md mx-auto">
-                      <div className="flex gap-3 items-center justify-start md:justify-center">
-                        <Square className="w-4 h-4 text-verona-gold/60 flex-shrink-0" />
-                        <span className="font-sans text-xs text-text-primary whitespace-nowrap">
-                          {selectedTypo.totalArea} m² Superficie Total
-                        </span>
-                      </div>
-                      <div className="flex gap-3 items-center justify-start md:justify-center">
-                        <Square className="w-4 h-4 text-verona-gold/60 flex-shrink-0" />
-                        <span className="font-sans text-xs text-text-primary whitespace-nowrap">
-                          {selectedTypo.coveredArea} m² Cub. + {selectedTypo.terraceArea} m² {selectedTypo.id === 'tipo-a' ? 'Parque' : 'Expansión'}
-                        </span>
-                      </div>
-                      <div className="flex gap-3 items-center justify-start md:justify-center">
-                        <Shield className="w-4 h-4 text-verona-gold/60 flex-shrink-0" />
-                        <span className="font-sans text-xs text-text-primary whitespace-nowrap">
-                          {selectedTypo.rooms} Ambientes | {selectedTypo.bathrooms} {selectedTypo.bathrooms === 1 ? 'Baño' : 'Baños'}
-                        </span>
-                      </div>
-                      <div className="flex gap-3 items-center justify-start md:justify-center">
-                        <Car className="w-4 h-4 text-verona-gold/60 flex-shrink-0" />
-                        <span className="font-sans text-xs text-text-primary whitespace-nowrap">
-                          Cochera {selectedTypo.garage ? 'Incluida' : 'No disponible'}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <button
-                        onClick={() => handleConsultar(selectedTypo.id)}
-                        className="font-sans text-[11px] uppercase tracking-extreme border border-verona-gold px-8 py-3.5 text-verona-gold hover:bg-verona-gold/15 transition-colors duration-300 cursor-none"
-                      >
-                        Consultar esta unidad
-                      </button>
-                    </div>
-                  </div>
-
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
         {/* Technical specifications grid */}
-        <div className="w-full border-t border-border-subtle pt-8">
+        <div className="w-full border-t border-border-subtle pt-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {technicalSpecs.map((spec, index) => (
               <div
@@ -229,6 +164,157 @@ export default function Tipologias() {
         </div>
 
       </div>
+
+      {/* FULL-PAGE TYPOLOGY DETAIL MODAL ("NUEVA PESTAÑA") MOUNTED DIRECTLY TO DOCUMENT.BODY */}
+      {mounted && selectedModalTypo && createPortal(
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+            className="fixed inset-0 z-[100] bg-verona-bg/98 backdrop-blur-xl overflow-y-auto select-none cursor-none flex flex-col justify-between"
+          >
+            {/* Top Navigation Bar inside Modal */}
+            <div className="sticky top-0 z-30 w-full bg-verona-bg/90 border-b border-border-subtle backdrop-blur-md px-6 md:px-12 py-4 flex items-center justify-between">
+              {/* Return button */}
+              <button
+                onClick={() => setSelectedModalTypo(null)}
+                className="flex items-center gap-2 font-sans text-[11px] uppercase tracking-extreme text-text-secondary hover:text-verona-gold transition-colors duration-300 cursor-none"
+              >
+                <ArrowLeft size={16} />
+                <span className="hidden sm:inline">Volver a Unidades</span>
+              </button>
+
+              {/* Central Typology Tabs within Modal */}
+              <div className="flex items-center gap-2">
+                {typologies.map((t) => {
+                  const isActive = t.id === selectedModalTypo.id;
+                  return (
+                    <button
+                      key={t.id}
+                      onClick={() => setSelectedModalTypo(t)}
+                      className={`px-3 md:px-5 py-2 text-[10px] md:text-xs font-sans tracking-wider uppercase transition-all duration-300 cursor-none border ${
+                        isActive
+                          ? 'bg-verona-gold text-black font-semibold border-verona-gold shadow-[0_0_15px_rgba(212,175,55,0.3)]'
+                          : 'bg-black/30 text-text-secondary hover:text-verona-gold border-white/10 hover:border-verona-gold/40'
+                      }`}
+                    >
+                      {t.title}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Close (X) button */}
+              <button
+                onClick={() => setSelectedModalTypo(null)}
+                className="w-10 h-10 border border-white/10 hover:border-verona-gold text-text-secondary hover:text-verona-gold transition-all duration-300 flex items-center justify-center cursor-none bg-black/20"
+                aria-label="Cerrar ventana"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Main Modal Body */}
+            <div className="max-w-5xl mx-auto w-full px-6 md:px-12 py-12 flex-grow">
+              
+              {/* Header Title Section */}
+              <div className="text-center mb-10">
+                <span className="font-sans text-[10px] uppercase tracking-extreme text-verona-gold mb-2 block font-semibold">
+                  Ficha Completa de Unidad · {selectedModalTypo.floor}
+                </span>
+                <h2 className="font-display text-4xl md:text-6xl text-text-primary font-light mb-3">
+                  {selectedModalTypo.title}
+                </h2>
+                <p className="font-sans text-sm md:text-base text-text-secondary max-w-lg mx-auto">
+                  {selectedModalTypo.sub}
+                </p>
+                <span className="font-sans text-xl md:text-2xl font-semibold text-verona-gold mt-3 block">
+                  Valor: {selectedModalTypo.price}
+                </span>
+              </div>
+
+              {/* Direct Project Renders Gallery in Upper Sector */}
+              <div className="w-full mb-12 border-t border-b border-border-subtle/50 py-6">
+                <div className="text-center mb-4">
+                  <span className="font-sans text-[10px] uppercase tracking-extreme text-verona-gold font-medium block">
+                    Galería de Renders del Proyecto
+                  </span>
+                </div>
+                <InterioresGallery
+                  activeFilter={selectedModalTypo.id as FilterId}
+                  hideHeader
+                  hideTabs
+                />
+              </div>
+
+              {/* Description & Detailed Features */}
+              <div className="max-w-2xl mx-auto text-center mb-12">
+                <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed mb-10">
+                  {selectedModalTypo.description}
+                </p>
+
+                {/* Specs Features Grid */}
+                <div className="grid grid-cols-2 gap-x-12 gap-y-6 mb-10 max-w-lg mx-auto bg-black/20 p-6 border border-border-subtle">
+                  <div className="flex gap-3 items-center justify-center">
+                    <Square className="w-4 h-4 text-verona-gold flex-shrink-0" />
+                    <span className="font-sans text-xs md:text-sm text-text-primary">
+                      {selectedModalTypo.totalArea} m² Sup. Total
+                    </span>
+                  </div>
+                  <div className="flex gap-3 items-center justify-center">
+                    <Square className="w-4 h-4 text-verona-gold flex-shrink-0" />
+                    <span className="font-sans text-xs md:text-sm text-text-primary">
+                      {selectedModalTypo.coveredArea} m² Cubierta
+                    </span>
+                  </div>
+                  <div className="flex gap-3 items-center justify-center">
+                    <Shield className="w-4 h-4 text-verona-gold flex-shrink-0" />
+                    <span className="font-sans text-xs md:text-sm text-text-primary">
+                      {selectedModalTypo.rooms} Ambientes | {selectedModalTypo.bathrooms} {selectedModalTypo.bathrooms === 1 ? 'Baño' : 'Baños'}
+                    </span>
+                  </div>
+                  <div className="flex gap-3 items-center justify-center">
+                    <Car className="w-4 h-4 text-verona-gold flex-shrink-0" />
+                    <span className="font-sans text-xs md:text-sm text-text-primary">
+                      Cochera {selectedModalTypo.garage ? 'Incluida' : 'No disponible'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Dual Contact CTA Actions */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a
+                    href={getWhatsAppLink(selectedModalTypo)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-sans text-[11px] uppercase tracking-extreme bg-verona-gold text-black font-semibold px-8 py-3.5 hover:bg-white transition-colors duration-300 cursor-none flex items-center justify-center gap-2 shadow-lg"
+                  >
+                    <MessageCircle size={16} />
+                    <span>Consultar por WhatsApp</span>
+                  </a>
+                  <button
+                    onClick={() => handleConsultar(selectedModalTypo.id)}
+                    className="font-sans text-[11px] uppercase tracking-extreme border border-verona-gold px-8 py-3.5 text-verona-gold hover:bg-verona-gold/15 transition-colors duration-300 cursor-none"
+                  >
+                    Formulario de Contacto
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Bottom Footer bar inside Modal */}
+            <div className="w-full bg-verona-bg border-t border-border-subtle py-4 px-6 md:px-12 text-center">
+              <span className="font-sans text-[10px] uppercase tracking-extreme text-text-secondary/50">
+                Verona Castelar Norte · Italia 944
+              </span>
+            </div>
+          </motion.div>
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 }

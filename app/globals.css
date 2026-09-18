@@ -86,3 +86,94 @@ body {
     cursor: none !important;
   }
 }
+
+/* Custom Pannellum Hotspots */
+.custom-hotspot {
+  width: 44px !important;
+  height: 44px !important;
+  margin-left: -22px !important;
+  margin-top: -22px !important;
+  background: rgba(7, 17, 37, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: none !important; /* Hide system cursor, let Verona custom cursor handle it */
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  pointer-events: auto !important;
+  z-index: 10;
+}
+
+.custom-hotspot:hover {
+  background: #071125 !important;
+  border-color: #c5a880 !important; /* Verona Gold on hover */
+}
+
+/* Pulsing outer ring */
+.custom-hotspot::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(197, 168, 128, 0.4);
+  border-radius: 50%;
+  opacity: 0;
+  animation: hotspot-pulse 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes hotspot-pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+/* Hotspot Icon styling */
+.custom-hotspot svg {
+  width: 18px !important;
+  height: 18px !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  transition: all 0.3s ease !important;
+}
+
+.custom-hotspot:hover svg {
+  color: #c5a880 !important;
+  transform: scale(1.15) !important;
+}
+
+/* Hotspot Tooltip */
+.hotspot-tooltip {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: #071125;
+  border: 1px solid rgba(197, 168, 128, 0.3);
+  color: rgba(255, 255, 255, 0.95);
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 6px 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.custom-hotspot:hover .hotspot-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
